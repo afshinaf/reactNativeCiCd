@@ -43,7 +43,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         {title}
       </Text>
       <Text>
-        hello afshin
+        hello afshin 1
       </Text>
       <Text
         style={[

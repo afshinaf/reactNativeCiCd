@@ -48,6 +48,9 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         <Text>
             hello afshin 2
         </Text>
+        <Text>
+            hello afshin 3
+        </Text>
       <Text
         style={[
           styles.sectionDescription,

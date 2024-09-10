@@ -16,39 +16,8 @@
 default_platform(:android)
 
 platform :android do
-  before_all do
-    ENV["https://app.slack.com/client/T01V9HD7UMT/C021D2NRYKA"] ="https://hooks.slack.com/services/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"
-  end
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-  lane :slack_build do
+  desc "Build Android app"
+  lane :build do
     gradle(task: "assembleRelease")
-    slack(message: "Build Successful!")
-    upload_to_slack()
   end
-
-  # Add this to your Fastfile
-  desc "Upload the APK to Slack channel"
-  private_lane :upload_to_slack do |options|
-    file_path = lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
-    file_name = file_path.gsub(/\/.*\//,"")
-    access_token = "xoxb-1995591266741-7716393779472-1GooxRfAY5vFCdFxWawpsUfS"
-    channel_name = "front-end"
-    sh "echo Uploading " + file_name + " to Slack"
-    sh "curl https://slack.com/api/files.upload -F token=\"" + access_token + "\" -F channels=\"" + channel_name + "\" -F title=\"" + file_name + "\" -F filename=\"" + file_name + "\" -F file=@" + file_path
-  end
-  after_all do |lane|
-     slack(
-        message: "successful deploy :rocket:"
-        )
-     end
-
-     error do |lane, exception|
-        slack(
-           message: exception.message,
-           success:false
-        )
-     end
-  end
+end
